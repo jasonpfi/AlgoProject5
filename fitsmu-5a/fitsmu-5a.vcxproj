@@ -153,6 +153,16 @@
   <ItemGroup>
     <ClCompile Include="fitsmu-5a.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="d_except.h" />
+    <ClInclude Include="d_matrix.h" />
+    <ClInclude Include="graph.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Data\maze1.txt" />
+    <Text Include="Data\maze2.txt" />
+    <Text Include="Data\maze3.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
