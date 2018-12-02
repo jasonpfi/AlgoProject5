@@ -407,6 +407,8 @@ class graph
    void clearVisit();
    bool allNodesVisited();
 
+   bool dfs(node&, const int&, stack<int>&);
+
   private:
    matrix<edge> edges;
    vector<node> nodes;
@@ -876,6 +878,29 @@ bool graph::allNodesVisited()
 	 return false;
 
    return true;
+}
+
+bool graph::dfs(node & n, const int& targetId, stack<int>& path)
+{
+	n.visit();
+	if (n.getId() == targetId)
+	{
+		path.push(n.getId());
+		return true;
+	}
+
+	for (int i = 0; i < edges[n.getId()].size(); i++)
+	{
+		if (isEdge(n.getId(), i) && !getNode(i).isVisited())
+		{
+			if (dfs(getNode(i), targetId, path))
+			{
+				path.push(n.getId());
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 bool graph::allNodesMarked()
