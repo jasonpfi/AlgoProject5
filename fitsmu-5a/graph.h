@@ -881,20 +881,31 @@ bool graph::allNodesVisited()
 }
 
 bool graph::dfsR(node & n, const int& targetId, stack<int>& path)
+// Recursive function to perform depth first search on graph.
+// n: current node
+// targetId: goal node Id
+// path: used to return the solution once found
 {
 	n.visit();
+
+	// Goal reached. Short circuit and begin building path.
 	if (n.getId() == targetId)
 	{
 		path.push(n.getId());
 		return true;
 	}
 
+	// Iterate through unvisited neighbors
 	for (int i = 0; i < numNodes(); i++)
 	{
 		if (isEdge(n.getId(), i) && !getNode(i).isVisited())
 		{
+			// Recursive call
 			if (dfsR(getNode(i), targetId, path))
 			{
+				// If the function returned true then we
+				// short circuiting. Continue building path
+				// and return directly to caller.
 				path.push(n.getId());
 				return true;
 			}
