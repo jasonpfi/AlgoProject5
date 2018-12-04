@@ -19,6 +19,8 @@ graph::graph()
 graph::graph(int n)
 // Constructor that creates a graph containing n nodes and no edges.
 // Edges and nodes are initialized by their constructors.
+//
+// int n: the number of nodes
 {
    for (int i = 0; i < n; i++)
       addNode();
@@ -28,6 +30,8 @@ graph::graph(int n)
 
 graph::graph(ifstream &fin)
 // Construct a new graph using the data in fin.
+//
+// ifstream fin: the input file stream to read from file
 {
    int n, i, j, w;
    fin >> n;
@@ -47,6 +51,9 @@ graph::graph(ifstream &fin)
 
 graph::graph(const graph &g)
 // Graph copy constructor.
+//
+// graph g: the graph object whose data members are to be copied into this
+//          object
 {
    NumEdges = 0;
 
@@ -58,6 +65,7 @@ graph::graph(const graph &g)
    node tempNode;
    tempNode.setId(0);
 
+	// Resize matrices to the size of the matrices of the graph parameter
    nodes.resize(g.numNodes(),tempNode);
    edges.resize(g.numNodes(),g.numNodes());
 
@@ -73,11 +81,15 @@ graph::graph(const graph &g)
 
 graph &graph::operator=(const graph &g)
 // Graph assignment operator.
+//
+// Create a temporary node to pass to nodes::resize to initialize
+// new nodes.  This avoids the exception that is thrown by
+// node::setId which is called by the node copy constructor.  The
+// temporary node is overwritten later in this function.
+//
+// graph g: the graph object whose data members are to be copied into this
+//          object. A shallow copy of this object is returned
 {
-   // Create a temporary node to pass to nodes::resize to initialize
-   // new nodes.  This avoids the exception that is thrown by
-   // node::setId which is called by the node copy constructor.  The
-   // temporary node is overwritten later in this function.
 
    node tempNode;
    tempNode.setId(0);
@@ -100,11 +112,14 @@ graph &graph::operator=(const graph &g)
 int graph::addNode(NodeWeight w)
 // Add a new node with weight w.  Also increase the size of the edges
 // matrix.  Return the index of the new node.
+//
+// int w: the weight of the new node to be added
 {
    node n;
    n.setNode(numNodes(),w);
    nodes.push_back(n);
 
+	// Increase size of edges matrix
    edges.resize(numNodes(),numNodes());
    return numNodes()-1;
 }
@@ -113,6 +128,10 @@ void graph::addEdge(int i, int j, NodeWeight w)
 // Add an edge of weight w from node i to node j.  Throws an exception
 // if i or j is too small or large.  Does not allow duplicate edges
 // to be added.
+//
+// int i: the id of the source node
+// int j: the id of the destination node
+// NodeWeight w: the weight of the new edge between the nodes
 {
    if (i < 0 || i >= numNodes() || j < 0 || j >= numNodes())
       throw rangeError("Bad value in graph::addEdge");
@@ -125,10 +144,15 @@ void graph::addEdge(int i, int j, NodeWeight w)
 void graph::removeEdge(int i, int j)
 // Remove the edge between node i and node j.  Throws an exception if
 // i or j is too large or too small, or if the edge does not exist.
+//
+// int i: the source node of the edge
+// int j: the destination node of the edge
 {
+	// given id's are too small or too large
    if (i < 0 || i >= numNodes() || j < 0 || j >= numNodes())
       throw rangeError("Bad value in graph::removeEdge");
 
+	// Edge between given nodes does not exist
    if (!isEdge(i,j))
       throw rangeError("Edge does not exist in graph::removeEdge");
 
@@ -141,10 +165,15 @@ EdgeWeight graph::getEdgeWeight(int i, int j) const
 // Return the weight of the edge between node i and node j. Throws an
 // exception if i or j is too small or too large, or if the edge does
 // not exist.
+//
+// int i: the source node of the edge
+// int j: the destination node of the edge
 {
+	// given id's are too small or too large
    if (i < 0 || i >= numNodes() || j < 0 || j >= numNodes())
       throw rangeError("Bad value in graph::getEdgeWeight");
 
+	// Edge between given nodes does not exist
    if (!isEdge(i,j))
       throw rangeError("Edge does not exist in graph::getEdgeWeight");
 
@@ -153,8 +182,12 @@ EdgeWeight graph::getEdgeWeight(int i, int j) const
 
 void graph::setEdgeWeight(int i, int j, EdgeWeight w)
 // Sets the weight of the arc/edge from node i to node j to w.  Throws
-// an exception if ir or j is too small or too large, or if the edge
+// an exception if i or j is too small or too large, or if the edge
 // does not exist.
+//
+// int i: the source node of the edge
+// int j: the destination node of the edge
+// EdgeWeight w: the new weight of the edge
 {
    if (i < 0 || i >= numNodes() || j < 0 || j >= numNodes())
       throw rangeError("Bad value in graph::setEdgeWeight");
@@ -165,6 +198,8 @@ void graph::setEdgeWeight(int i, int j, EdgeWeight w)
 NodeWeight graph::getNodeWeight(int i) const
 // Returns the weight of node i.  Throws an exception if i is too
 // small or too large.
+//
+// int i: the id of the node whose weight is to be retrieved
 {
    if (i < 0 || i >= numNodes())
       throw rangeError("Bad value in graph::getNodeWeight");
@@ -175,6 +210,9 @@ NodeWeight graph::getNodeWeight(int i) const
 void graph::setNodeWeight(int i, NodeWeight w)
 // Sets the weight of node i to w.  Throws an exception if i is too
 // small or too large.
+//
+// int i: the id of the node whose weight is to be set
+// NodeWeight w: the new weight of the node
 {
    if (i < 0 || i >= numNodes())
       throw rangeError("Bad value in graph::setNodeWeight");
@@ -183,7 +221,7 @@ void graph::setNodeWeight(int i, NodeWeight w)
 }
 
 NodeWeight graph::getTotalNodeWeight()
-// Return the total node weight.
+// Return all of the weights of the nodes added together
 {
    NodeWeight weight = 0;
 
@@ -194,7 +232,7 @@ NodeWeight graph::getTotalNodeWeight()
 }
 
 EdgeWeight graph::getTotalEdgeWeight()
-// Return the total edge weight.
+// Return all of the weights of the edges added together
 {
    EdgeWeight weight = 0;
 
@@ -210,27 +248,32 @@ bool graph::isEdge(NodeType i, NodeType j) const
 // Return true if there is an arc/edge from node i to node j, and
 // false otherwise.  Throws an exception if i is too small or too
 // large.
+//
+// NodeType i: the id of the source node
+// NodeType j: the id of the destination node
 {
    if (i < 0 || i >= numNodes() || j < 0 || j >= numNodes())
       throw rangeError("Bad value in graph::isEdge");
 
+	// Check if valid connection exists
    return edges[i][j].isValid();
 }
 
 int graph::numNodes() const
-// Return the number of nodes.
+// Return the number of nodes in this graph.
 {
    return nodes.size();
 }
 
 int graph::numEdges() const
-// Return the number of edges.
+// Return the number of edges in this graph.
 {
    return NumEdges;
 }
 
 void graph::printNodes() const
-// Print all nodes.
+// Print all nodes in this graph. Call the overloaded output operator on
+// all of the nodes
 {
    cout << "Num nodes: " << numNodes() << endl;
 
@@ -276,6 +319,8 @@ node &graph::getNode(int i)
 const node &graph::getNode(int i) const
 // Return a reference to the ith node.  Throws an exception if i is
 // too small or too large.
+//
+// int i: The id of the node to be retrieved
 {
    if (i < 0 || i >= numNodes())
       throw rangeError("Bad value in graph::getNode");
@@ -287,6 +332,9 @@ edge &graph::getEdge(int i, int j)
 // Return a reference to the edge connecting nodes i and j.  If i is
 // too small or too large, or if the edge does not exist, throws an
 // exception.
+//
+// int i: the id of the source node of this edge
+// int j: the id of the destination node of this edge
 {
    if (i < 0 || i >= numNodes() || j < 0 || j >= numNodes())
       throw rangeError("Bad value in graph::getEdge");
@@ -298,9 +346,12 @@ edge &graph::getEdge(int i, int j)
 }
 
 const edge &graph::getEdge(int i, int j) const
-// Return a reference to the edge connecting nodes i and j.  If i is
+// Return a constant reference to the edge connecting nodes i and j.  If i is
 // too small or too large, or if the edge does not exist, throws an
 // exception.
+//
+// int i: the id of the source node of this edge
+// int j: the id of the destination node of this edge
 {
    if (i < 0 || i >= numNodes() || j < 0 || j >= numNodes())
       throw rangeError("Bad value in graph::getEdge");
@@ -313,6 +364,8 @@ const edge &graph::getEdge(int i, int j) const
 
 void graph::mark(int i)
 // Mark node i.  Throws an exception if i is too large or too small.
+//
+// int i: the id of the node to be marked
 {
    if (i < 0 || i >= numNodes())
       throw rangeError("Bad value in graph::getEdge");
@@ -321,7 +374,11 @@ void graph::mark(int i)
 }
 
 void graph::mark(int i, int j)
-// Mark edge (i,j).  Throws an exception if (i,j) is not an edge.
+// Mark edge (i,j).  Throws an exception if an edge between i and j does not
+// exist or is not valid
+//
+// int i: the id of the source node of the edge
+// int j: the id of the destination node of the edge
 {
    if (!isEdge(i,j))
       throw rangeError("Bad value in graph::mark");
@@ -330,7 +387,9 @@ void graph::mark(int i, int j)
 }
 
 void graph::unMark(int i)
-// unMark node i.  Throws an exception if i is too large or too small.
+// unmark node i.  Throws an exception if i is too large or too small.
+//
+// int i: the id of the node to be unmarked
 {
    if (i < 0 || i >= numNodes())
       throw rangeError("Bad value in graph::getEdge");
@@ -339,7 +398,11 @@ void graph::unMark(int i)
 }
 
 void graph::unMark(int i, int j)
-// unMark edge (i,j).  Throws an exception if (i,j) is not an edge.
+// unmark edge (i,j).  Throws an exception if an edge between node i and node
+// j does not exist
+//
+// int i: the id of the source node of this edge
+// int j: the id of the destination node of this edge
 {
    if (!isEdge(i,j))
       throw rangeError("Bad value in graph::unMark");
@@ -350,6 +413,8 @@ void graph::unMark(int i, int j)
 bool graph::isMarked(int i) const
 // Return true if node i is marked.  Otherwise return false.  Throws an
 // exception if i is too large or too small.
+//
+// int i: the id of the node to be checked if marked
 {
    if (i < 0 || i >= numNodes())
       throw rangeError("Bad value in graph::getEdge");
@@ -360,6 +425,9 @@ bool graph::isMarked(int i) const
 bool graph::isMarked(int i, int j) const
 // Return true if edge (i,j) node is marked.  Otherwise return false.
 // Throws an exception if (i,j) is not an edge.
+//
+// int i: the id of the source node of this edge
+// int j: the id of the destination node of this edge
 {
    if (!isEdge(i,j))
       throw rangeError("Bad value in graph::isMarked");
@@ -382,6 +450,8 @@ void graph::clearMark()
 void graph::visit(int i)
 // Mark node i as visited.  Throws an exception if i is too large or
 // too small.
+//
+// int i: the id of the node to be marked as visited
 {
    if (i < 0 || i >= numNodes())
       throw rangeError("Bad value in graph::getEdge");
@@ -392,6 +462,9 @@ void graph::visit(int i)
 void graph::visit(int i, int j)
 // Mark edge (i,j) as visited.  Throws an exception (i,j) is not an
 // edge.
+//
+// int i: the id of the source node of this edge
+// int j: the id of the destination node of this edge
 {
    if (!isEdge(i,j))
       throw rangeError("Bad value in graph::visite");
@@ -402,6 +475,8 @@ void graph::visit(int i, int j)
 void graph::unVisit(int i)
 // Set node i as unvisited.  Throws an exception if i is too large or
 // too small.
+//
+// int i: the id of the node to be unvisited
 {
    if (i < 0 || i >= numNodes())
       throw rangeError("Bad value in graph::getEdge");
@@ -412,6 +487,9 @@ void graph::unVisit(int i)
 void graph::unVisit(int i, int j)
 // Set edge (i,j) as unvisited.  Throws an exception if (i,j) is not
 // an edge.
+//
+// int i: the id of the source node of this edge
+// int j: the id of the destination node of this edge
 {
    if (!isEdge(i,j))
       throw rangeError("Bad value in graph::unVisit");
@@ -422,6 +500,8 @@ void graph::unVisit(int i, int j)
 bool graph::isVisited(int i) const
 // Return true if node has been visited.  Otherwise return false.  Throws an
 // exception if i is too large or too small.
+//
+// int i: the id of the node to be checked if it is visited
 {
    if (i < 0 || i >= numNodes())
       throw rangeError("Bad value in graph::getEdge");
@@ -432,6 +512,9 @@ bool graph::isVisited(int i) const
 bool graph::isVisited(int i, int j) const
 // Return true if edge (i,j) has been visited.  Otherwise return
 // false.  Throws an exception if (i,j) is not an edge.
+//
+// int i: the id of the source node of this edge
+// int j: the id of the destination node of this edge
 {
    if (!isEdge(i,j))
       throw rangeError("Bad value in graph::isVisited");
@@ -464,9 +547,10 @@ bool graph::allNodesVisited()
 
 bool graph::dfsR(node & n, const int& targetId, stack<int>& path)
 // Recursive function to perform depth first search on graph.
-// n: current node
-// targetId: goal node Id
-// path: used to return the solution once found
+//
+// node n: current node
+// int targetId: goal node Id
+// stack<int> path: used to return the solution once found
 {
 	n.visit();
 
