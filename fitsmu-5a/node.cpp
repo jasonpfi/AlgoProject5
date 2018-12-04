@@ -67,7 +67,8 @@ int node::getId() const
    return id;
 }
 
-void node::setNode(int id, NodeWeight w = 0, bool m = false, bool v = false)
+void node::setNode(int id, NodeWeight w/*=0*/, bool m/*=false*/,
+						 bool v/*=false*/)
 // Initialize a node
 //
 // int id: the new id of this node

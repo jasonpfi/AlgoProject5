@@ -30,7 +30,7 @@ class node
       void setWeight(NodeWeight);
       NodeWeight getWeight() const;
 
-      void setNode(int, NodeWeight, bool, bool);
+      void setNode(int id, NodeWeight w = 0, bool m = false, bool v = false);
 
       void mark();
       void unMark();

@@ -124,6 +124,18 @@ int graph::addNode(NodeWeight w)
    return numNodes()-1;
 }
 
+int graph::addNode(node n)
+	// Add a new node that is a copy of node n (note that the node is
+	// passed by value).  Also increase the size of the edges matrix.
+	// Return the index of the new node.
+{
+
+	nodes.push_back(n);
+
+	edges.resize(numNodes(),numNodes());
+	return numNodes() - 1;
+}
+
 void graph::addEdge(int i, int j, NodeWeight w)
 // Add an edge of weight w from node i to node j.  Throws an exception
 // if i or j is too small or large.  Does not allow duplicate edges
