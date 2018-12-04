@@ -7,6 +7,8 @@
  *           node.h file
  */
 
+#include "node.h"
+
 node::node()
 // Constructor, creates a new, uninitialized node. id is initialized
 // elsewhere (by the graph constructor).
@@ -91,13 +93,13 @@ void node::setNode(int id, NodeWeight w = 0, bool m = false, bool v = false)
 }
 
 void node::mark()
-   // Mark node.
+   // Mark node, set this.marked to true
 {
    marked = true;
 }
 
 void node::unMark()
-   // Un-mark node.
+   // Un-mark node, set this.marked to false
 {
    marked = false;
 }
@@ -128,6 +130,7 @@ bool node::isVisited() const
 
 
 ostream &operator<<(ostream &ostr, const node &n)
+// Overloaded output operator for the node class,
 {
    ostr << "node: " << n.getId() << " weight: " << n.getWeight()
         << " visited: " << n.isVisited() << " marked " << n.isMarked() << endl;

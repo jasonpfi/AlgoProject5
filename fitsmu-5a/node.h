@@ -40,6 +40,8 @@ class node
       void unVisit();
       bool isVisited() const;
 
+		friend ostream &operator<<(ostream &ostr, const node &n);
+
    private:
       int id;
       NodeWeight weight;
