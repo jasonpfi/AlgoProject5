@@ -20,6 +20,10 @@ edge::edge()
 edge::edge(int i, int j, EdgeWeight w)
 // Constructor creates an edge with weight w, and marks the edge as valid, unvisited
 // and unmarked.
+//
+// int i: the id of the source node
+// int j: the id of the destination node
+// EdgeWeight w: the weight of the edge
 {
    setEdge(i,j,w);
    unMark();
@@ -28,6 +32,8 @@ edge::edge(int i, int j, EdgeWeight w)
 
 edge::edge(const edge &e)
 // Copy constructor.  Also copies visited and marked state.
+//
+// edge e: the edge whose data members are to be copied to this edge
 {
    setEdge(e.source, e.dest, e.getWeight());
 
@@ -49,6 +55,9 @@ edge::edge(const edge &e)
 
 edge &edge::operator=(const edge &e)
 // Overloaded assignment operator
+//
+// edge e: the edge object whose data members are to be copied to this edge.
+//         A shallow copy of this edge is returned
 {
    setEdge(e.source, e.dest, e.getWeight());
 
@@ -73,6 +82,10 @@ edge &edge::operator=(const edge &e)
 void edge::setEdge(int i, int j, EdgeWeight w = 0)
 // Initialize edge with source, destination and weight and mark edge
 // as valid.  Do not change visited or marked state.
+//
+// int i: the source node of this edge
+// int j: the destination node of this edge
+// EdgeWeight w: the weight of this edge between the nodes. Default to 0
 {
    source = i;
    dest = j;
@@ -82,6 +95,8 @@ void edge::setEdge(int i, int j, EdgeWeight w = 0)
 
 void edge::setWeight(EdgeWeight w)
 // Set edge weight to w.
+//
+// EdgeWeight w: the new weight of this edge
 {
    weight = w;
 }
@@ -160,6 +175,9 @@ bool edge::isVisited() const
 
 ostream &operator<<(ostream &ostr, const edge &e)
 // Print all edge information for a valid edge;
+//
+// ostream ostr: the output stream operator
+// edge e: the edge object whose data members' values are to be printed
 {
    cout << "edge (" << e.getSource() << "," << e.getDest() << "): ";
    cout << " weight: " << e.getWeight() << " visited: " << e.isVisited()
