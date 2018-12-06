@@ -21,6 +21,9 @@ public:
 	char moveDirection(const int& ii, const int& ij, const int& fi, const int& fj) const;
 	void printPath(stack<int>&) const;
 
+	bool findShortestPath1(graph &g) const;
+	bool findShortestPath2(graph &g) const;
+
 private:
 	int rows; // number of rows in the maze
 	int cols; // number of columns in the maze

@@ -23,6 +23,7 @@ class node
       node();
       node(const node &);
       node &operator=(const node &);
+		friend bool operator>(const node lhs, const node rhs);
 
       void setId(int i);
       int getId() const;

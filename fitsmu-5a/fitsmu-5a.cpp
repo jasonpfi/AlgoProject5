@@ -41,6 +41,8 @@ int main()
 				// Solve
 				m.findPathRecursive(g);
 				m.findPathNonRecursive(g);
+				m.findShortestPath1(g);
+				m.findShortestPath2(g);
 			}
 
 

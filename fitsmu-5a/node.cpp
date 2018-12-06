@@ -26,6 +26,13 @@ node::node(const node &n)
    setNode(n.getId(), n.getWeight(), n.isMarked(), n.isVisited());
 }
 
+bool operator>(const node lhs, const node rhs)
+// Overloaded comparison operator, used for building heap structure in
+// priority queue
+{
+	return lhs.getWeight() > rhs.getWeight();
+}
+
 node &node::operator=(const node &n)
 // Overloaded assignment operator.
 //

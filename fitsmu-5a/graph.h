@@ -10,6 +10,7 @@
 #include "d_matrix.h"
 #include <list>
 #include <stack>
+#include <queue>
 #include "node.h"
 #include "edge.h"
 

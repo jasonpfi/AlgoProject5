@@ -542,8 +542,8 @@ void graph::clearVisit()
 
    for (int i = 0; i < numNodes(); i++)
       for (int j = 0; j < numNodes(); j++)
-	 if (isEdge(i,j))
-   	    unVisit(i,j);
+	 		if (isEdge(i,j))
+   	   	unVisit(i,j);
 }
 
 bool graph::allNodesVisited()
