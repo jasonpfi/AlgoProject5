@@ -309,31 +309,31 @@ bool maze::findShortestPath2(graph &g) const
 	vector<int> pred = vector<int>(g.numNodes());
 	g.getNode(0).setWeight(0);
 
-	auto cmp = [](node left, node right)
+	auto cmp = [&g](int left, int right)
 	{
-		return left.getWeight() > right.getWeight();
+		return g.getNode(left).getWeight() > g.getNode(right).getWeight();
 	};
 
 	// create priority queue to sort nodes
-	priority_queue<node, vector<node>, std::greater<node>> history;
+	priority_queue<int, vector<int>, decltype(cmp)> history(cmp);
 
 	// add all elements to the priority queue, setting their distance as
 	//  infinite (max int value)
 	for (int i = 1; i < g.numNodes(); i++)
 	{
 		g.getNode(i).setWeight(32767);
-		history.push(g.getNode(i));
+		history.push(i);
 	}
-	history.push(g.getNode(0));
+	history.push(0);
 
 	// Traverse the graph
 	while (!history.empty())
 	{
-		node n(history.top());
-		n.visit();
+		int n(history.top());
+		g.getNode(n).visit();
 
 		// End node found
-		if (n.getId() == targetNodeId)
+		if (n == targetNodeId)
 		{
 			pathFound = true;
 			break;
@@ -342,20 +342,21 @@ bool maze::findShortestPath2(graph &g) const
 		// Loop though all possible neighbors
 		for (int i = 0; i < g.numNodes(); i++)
 		{
-			if (g.isEdge(n.getId(), i) && !g.getNode(i).isVisited())
+			if (g.isEdge(n, i) && !g.getNode(i).isVisited())
 			{
 				g.getNode(i).visit();
 
 				// If the neighbor weight is greater than the weight of node n
 				// plus 1, set a new weight
-				if (g.getNode(i).getWeight() > n.getWeight() + 1)
+				if (g.getNode(i).getWeight() > g.getNode(n).getWeight() + 1)
 				{
 
-					pred.at(g.getNode(i).getId()) = n.getId();
+					pred.at(g.getNode(i).getId()) = n;
+					g.getNode(i).setWeight(g.getNode(n).getWeight() + 1);
 
-					// In order for the nodes in the priority queue to mutate
-					// and reorder, must empty and refill the queue
-					vector<node> remainingNodes;
+					// In order for the nodes in the priority queue to
+					// reorder, must empty and refill the queue
+					vector<int> remainingNodes;
 					while (!history.empty())
 					{
 						remainingNodes.push_back(history.top());
@@ -363,10 +364,6 @@ bool maze::findShortestPath2(graph &g) const
 					}
 					for (int j = 0; j < remainingNodes.size(); j++)
 					{
-						if (remainingNodes.at(j).getId() == i)
-						{
-							remainingNodes.at(j).setWeight(n.getWeight() + 1);
-						}
 						history.push(remainingNodes.at(j));
 					}
 
