@@ -1,3 +1,10 @@
+/**
+* Team: fitsmu
+* Jason Fitch
+* Sam Smucny
+*
+* maze.h: Maze header file
+*/
 
 #include "maze.h"
 
@@ -302,8 +309,10 @@ bool maze::findShortestPath2(graph &g) const
 	vector<int> pred = vector<int>(g.numNodes());
 	g.getNode(0).setWeight(0);
 
-	auto cmp = [](node left, node right) {
-		return left.getWeight() > right.getWeight();};
+	auto cmp = [](node left, node right)
+	{
+		return left.getWeight() > right.getWeight();
+	};
 
 	// create priority queue to sort nodes
 	priority_queue<node, vector<node>, std::greater<node>> history;
@@ -339,7 +348,8 @@ bool maze::findShortestPath2(graph &g) const
 
 				// If the neighbor weight is greater than the weight of node n
 				// plus 1, set a new weight
-				if (g.getNode(i).getWeight() > n.getWeight() + 1){
+				if (g.getNode(i).getWeight() > n.getWeight() + 1)
+				{
 
 					pred.at(g.getNode(i).getId()) = n.getId();
 

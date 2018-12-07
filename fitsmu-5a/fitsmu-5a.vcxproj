@@ -151,12 +151,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="edge.cpp" />
     <ClCompile Include="fitsmu-5a.cpp" />
+    <ClCompile Include="graph.cpp" />
+    <ClCompile Include="maze.cpp" />
+    <ClCompile Include="node.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="d_except.h" />
     <ClInclude Include="d_matrix.h" />
+    <ClInclude Include="edge.h" />
     <ClInclude Include="graph.h" />
+    <ClInclude Include="maze.h" />
+    <ClInclude Include="node.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Data\maze1.txt" />

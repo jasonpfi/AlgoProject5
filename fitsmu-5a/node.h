@@ -19,33 +19,33 @@ typedef int NodeWeight;
 // whether the node has been marked, and whether the node has been visited
 class node
 {
-   public:
-      node();
-      node(const node &);
-      node &operator=(const node &);
-		friend bool operator>(const node lhs, const node rhs);
+public:
+	node();
+	node(const node &);
+	node &operator=(const node &);
+	friend bool operator>(const node lhs, const node rhs);
 
-      void setId(int i);
-      int getId() const;
+	void setId(int i);
+	int getId() const;
 
-      void setWeight(NodeWeight);
-      NodeWeight getWeight() const;
+	void setWeight(NodeWeight);
+	NodeWeight getWeight() const;
 
-      void setNode(int id, NodeWeight w = 0, bool m = false, bool v = false);
+	void setNode(int id, NodeWeight w = 0, bool m = false, bool v = false);
 
-      void mark();
-      void unMark();
-      bool isMarked() const;
+	void mark();
+	void unMark();
+	bool isMarked() const;
 
-      void visit();
-      void unVisit();
-      bool isVisited() const;
+	void visit();
+	void unVisit();
+	bool isVisited() const;
 
-		friend ostream &operator<<(ostream &ostr, const node &n);
+	friend ostream &operator<<(ostream &ostr, const node &n);
 
-   private:
-      int id;
-      NodeWeight weight;
-      bool marked;
-      bool visited;
+private:
+	int id;
+	NodeWeight weight;
+	bool marked;
+	bool visited;
 };

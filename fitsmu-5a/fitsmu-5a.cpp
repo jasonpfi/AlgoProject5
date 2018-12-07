@@ -1,5 +1,10 @@
-
-// Project 5
+/**
+* Team: fitsmu
+* Jason Fitch
+* Sam Smucny
+*
+* fitsmu-5a.cpp: main file. entry point into program.
+*/
 
 #include <limits.h>
 #include "d_except.h"

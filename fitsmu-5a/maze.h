@@ -1,3 +1,10 @@
+/**
+* Team: fitsmu
+* Jason Fitch
+* Sam Smucny
+*
+* mase.h: maze header file
+*/
 
 #include <iostream>
 #include "graph.h"

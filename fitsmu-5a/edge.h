@@ -16,41 +16,41 @@ typedef int EdgeWeight;
 
 class edge
 {
-   public:
-      edge();
-      edge(int, int, EdgeWeight = 0);
-      edge(const edge &);
-      edge &operator=(const edge &);
+public:
+	edge();
+	edge(int, int, EdgeWeight = 0);
+	edge(const edge &);
+	edge &operator=(const edge &);
 
-      void setWeight(EdgeWeight);
-      EdgeWeight getWeight() const;
+	void setWeight(EdgeWeight);
+	EdgeWeight getWeight() const;
 
-      int getSource() const;
-      int getDest() const;
+	int getSource() const;
+	int getDest() const;
 
-      void setValid();
-      void setInvalid();
-      bool isValid() const;
+	void setValid();
+	void setInvalid();
+	bool isValid() const;
 
-      void mark();
-      void unMark();
-      bool isMarked() const;
+	void mark();
+	void unMark();
+	bool isMarked() const;
 
-      void visit();
-      void unVisit();
-      bool isVisited() const;
+	void visit();
+	void unVisit();
+	bool isVisited() const;
 
-		friend ostream &operator<<(ostream &ostr, const edge &e);
+	friend ostream &operator<<(ostream &ostr, const edge &e);
 
-		void setEdge(int, int, EdgeWeight);
+	void setEdge(int, int, EdgeWeight);
 
-   private:
-      int source;
-      int dest;
-      EdgeWeight weight;
+private:
+	int source;
+	int dest;
+	EdgeWeight weight;
 
-		// Equals true if this edge is valid, otherwise the edge is invalid
-		bool valid;
-      bool visited;
-      bool marked;
+	// Equals true if this edge is valid, otherwise the edge is invalid
+	bool valid;
+	bool visited;
+	bool marked;
 };
